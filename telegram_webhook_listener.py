@@ -18,23 +18,24 @@ def telegram_webhook():
 
         if text.startswith("/check"):
             try:
+                # Format: /check TSLA 750 2025-06-28 PUT
                 _, ticker, strike, expiry, option_type = text.split()
                 result = check_trade_result(ticker, strike, expiry, option_type)
                 bot.send_message(chat_id=chat_id, text=result)
             except Exception as e:
                 bot.send_message(
                     chat_id=chat_id,
-                    text=f"❌ Format error. Use:
-/check TICKER STRIKE YYYY-MM-DD CALL|PUT\nError: {e}"
+                    text=f"❌ Format error. Use:\n/check TICKER STRIKE YYYY-MM-DD CALL|PUT\nError: {e}"
                 )
         else:
             bot.send_message(
                 chat_id=chat_id,
-                text="🤖 Send:
-/check TICKER STRIKE YYYY-MM-DD CALL|PUT"
+                text="🤖 Send:\n/check TICKER STRIKE YYYY-MM-DD CALL|PUT"
             )
 
     return "OK", 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5002)
+
+
